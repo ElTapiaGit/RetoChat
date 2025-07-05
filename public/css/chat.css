@@ -1,0 +1,107 @@
+:root {
+    --azul-marino: #001B48;
+    --azul-principal: #004481;
+    --azul-acento: #018ABE;
+    --azul-acento-hover: #97CADB;
+    --fondo-claro: #DEE8F1;
+    --texto-blanco: #FFFFFF;
+}
+  
+body {
+    background-color: var(--fondo-claro);
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--azul-marino);
+}
+  
+.info-bar {
+    background-color: var(--azul-principal);
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--azul-acento);
+    color: var(--texto-blanco);
+}
+  
+.info-bar h1 {
+    margin: 0;
+    font-size: 22px;
+}
+  
+.info-bar p {
+    margin: 5px 0 0;
+    font-size: 16px;
+}
+  
+.chat-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 70px; /* Espacio para el footer fijo */
+    height: 70vh; /* Altura fija del contenedor de chat */
+    /*max-height: calc(100vh - 120px); /* ajusta esto */
+    overflow-y: auto; /* Habilitar scroll vertical */
+}
+  
+.mensaje-yo {
+    align-self: flex-end;
+    background-color: #97CADB;
+    color: var(--texto-blanco);
+    padding: 10px 15px;
+    border-radius: 15px 15px 0 15px;
+    max-width: 60%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+  
+.mensaje-otro {
+    align-self: flex-start;
+    background-color: #018ABE;
+    color: var(--texto-blanco);
+    padding: 10px 15px;
+    border-radius: 15px 15px 15px 0;
+    max-width: 60%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+  
+.mensaje-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--texto-blanco);
+    display: flex;
+    padding: 10px 15px;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    gap: 10px;
+    align-items: center;
+    box-sizing: border-box;
+}
+  
+.mensaje-footer input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--azul-acento);
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    background-color: white;
+    color: var(--azul-marino);
+}
+  
+.mensaje-footer button {
+    background-color: var(--azul-acento);
+    border: none;
+    padding: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+  
+.mensaje-footer button:hover {
+    background-color: var(--azul-acento-hover);
+}
+  

@@ -1,0 +1,90 @@
+:root {
+    --azul-marino: #001B48;
+    --azul-oscuro: #004481;
+    --azul-acento: #018ABE;
+    --celeste-claro: #97CADB;
+    --fondo-suave: #DEE8F1;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: var(--fondo-suave);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: var(--azul-marino);
+}
+
+.registro-container {
+    background-color: var(--celeste-claro);
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.registro-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--azul-oscuro);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--celeste-claro);
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: white;
+    color: var(--azul-marino);
+}
+
+form .checkbox-terminos {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+form .checkbox-terminos input {
+    margin-right: 10px;
+}
+
+form .btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--azul-acento);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form .btn:hover {
+    background-color: var(--azul-oscuro);
+}
+
+.back-arrow {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--azul-oscuro);
+}
+
+/* son de la razon de ver las cosas en un modelo sin tener en cuentas las cosas */

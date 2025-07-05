@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat del Reto</title>
+  <link rel="stylesheet" href="/css/chat.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+  <!-- Barra superior con información del reto -->
+  <header class="info-bar">
+    <h1>Reto del Día</h1>
+    <p>Comparte una historia que te haya inspirado esta semana</p>
+  </header>
+
+  <!-- Contenedor del chat -->
+  <main class="chat-container" id="chat">
+    <!-- Aquí aparecerán los mensajes -->
+  </main>
+
+  <!-- Caja de mensaje -->
+  <footer class="mensaje-footer">
+    <form id="form" style="display: flex; width: 100%; gap: 10px;">
+      <input type="text" placeholder="Escribe tu mensaje..." id="input" autocomplete="off" />
+      <button type="submit" title="Enviar"><i class="bi bi-send-fill"></i></button>
+    </form>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const usuarioDestino = params.get('usuario') || 'Usuario';
+    document.querySelector('.info-bar h1').textContent = `Chat con ${usuarioDestino}`;
+  </script>
+
+  <!-- Socket.IO -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    const form = document.getElementById('form');
+    const input = document.getElementById('input');
+    const chatContainer = document.getElementById('chat');
+
+    // Guardamos tu propio ID de socket
+    let myId = null;
+
+    socket.on('connect', () => {
+      myId = socket.id;
+      console.log('Conectado al servidor con ID:', socket.id);
+    });
+
+    // Cuando recibes un mensaje (msg y senderId)
+    socket.on('chat message', ({ msg, senderId }) => {
+      
+      const mensaje = document.createElement('div');
+      if (senderId === myId) {
+        mensaje.classList.add('mensaje-yo');
+      } else {
+        mensaje.classList.add('mensaje-otro');
+      }
+      mensaje.textContent = msg;
+      chatContainer.appendChild(mensaje);
+      // Siempre baja al último mensaje
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    });
+
+    let usuarioOrigen = '';
+    let usuarioOrigenId = 0;
+
+    async function obtenerUsuarioActual() {
+      const res = await fetch('/api/usuario');
+      if (res.ok) {
+        const data = await res.json();
+        usuarioOrigen = data.usuario;
+        usuarioOrigenId = data.id;
+      }
+    }
+    obtenerUsuarioActual();
+
+    // Al enviar mensaje
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const texto = input.value.trim();
+      if (texto !== '') {
+        // Envía al servidor
+        socket.emit('chat message', {
+          mensaje: texto,
+          usuarioOrigen, //aqui es el usuario logueado
+          usuarioDestino, //el destinatario ya lo tienes del query param
+        });
+        input.value = '';
+      }
+    });
+
+    async function cargarHistorial() {
+      //const res = await fetch(`/api/chat-historial?usuarioDestino=${usuarioDestino}`);
+      const res = await fetch(`/api/chat-historial?usuario=${usuarioDestino}`);
+
+      const mensajes = await res.json();
+
+      mensajes.forEach(({ mensaje, usuario_id }) => {
+        const mensajeElem = document.createElement('div');
+        mensajeElem.classList.add(usuario_id === usuarioOrigenId ? 'mensaje-yo' : 'mensaje-otro');
+        mensajeElem.textContent = mensaje;
+        chatContainer.appendChild(mensajeElem);
+      });
+    }
+
+    cargarHistorial();
+  </script>
+
+</body>
+</html>

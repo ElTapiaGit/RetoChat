@@ -1,0 +1,81 @@
+:root {
+    --fondo: #DEE8F1;
+    --texto: #001B48;
+    --azul-oscuro: #004481;
+    
+    --fondo-claro: #DEE8F1;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: var(--fondo);
+}
+
+.volver {
+    padding: 15px;
+}
+
+.volver a {
+    color: var(--azul-oscuro);
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.perfil-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.foto-perfil {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #018ABE;
+}
+
+.datos-usuario {
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    font-size: 16px;
+}
+
+.datos-usuario li {
+    margin-bottom: 10px;
+}
+
+.estadisticas {
+    background: linear-gradient(to right, #97CADB, #DEE8F1);
+    padding: 20px;
+    margin: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.estadisticas h2 {
+    margin-top: 0;
+    color: var(--azul-oscuro);
+}
+
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #97CADB;
+}
+
+.footer-nav a {
+    color: #004481;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.footer-nav .active {
+    color: #018ABE;
+}

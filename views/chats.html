@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chats</title>
+  <link rel="stylesheet" href="/css/chats.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+  <header class="header">
+    <h1><i class="bi bi-chat-dots"></i> Chats</h1>
+  </header>
+
+  <main class="chat-list" id="chat-list">
+    <!-- Aquí se cargan los chats -->
+  </main>
+
+  <!-- Footer o menú de navegación -->
+  <footer class="footer-nav">
+    <a href="/principal"><i class="bi bi-house-door"></i></a>
+    <a href="/chat"><i class="bi bi-chat-dots active"></i></a>
+    <a href="/calendario"><i class="bi bi-calendar-event"></i></a>
+    <a href="/perfil"><i class="bi bi-person"></i></a>
+  </footer>
+
+  <script>
+    async function cargarChats() {
+      try {
+        const res = await fetch('/api/chats');
+        const chats = await res.json();
+        const chatList = document.getElementById('chat-list');
+
+        if (chats.length === 0) {
+          chatList.innerHTML = '<p class="empty">Aún no realizaste ningún chat.</p>';
+          return;
+        }
+
+        chats.forEach(chat => {
+          const chatItem = document.createElement('div');
+          chatItem.classList.add('chat-item');
+          chatItem.innerHTML = `
+            <div class="icono-usuario">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="info-usuario">
+              <p><strong>${chat.nombre_completo}</strong></p>
+              <p class="preview">${chat.ultimo_mensaje || 'Sin mensajes aún'}</p>
+            </div>
+          `;
+          // 👉 Agrega evento para redirigir al chat
+  chatItem.addEventListener('click', () => {
+    window.location.href = `/chat?usuario=${encodeURIComponent(chat.usuario)}`;
+  })
+          chatList.appendChild(chatItem);
+        });
+      } catch (error) {
+        console.error('Error al cargar chats:', error);
+      }
+    }
+
+    cargarChats();
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil de Usuario</title>
+  <link rel="stylesheet" href="/css/perfil.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+  <!-- Flecha para volver atrás -->
+  <div class="volver">
+    <a href="/principal"><i class="bi bi-arrow-left"></i></a>
+  </div>
+
+  <!-- Imagen de perfil -->
+  <div class="perfil-section">
+    <img src="/imgs/user.png" alt="Usuario" class="foto-perfil" />
+  </div>
+
+  <!-- Datos del usuario -->
+  <ul class="datos-usuario">
+    <li><strong>Nombre:</strong> Null</li>
+    <li><strong>Email:</strong> Null</li>
+    <li><strong>Edad:</strong> Null</li>
+    <li><strong>País:</strong> Null</li>
+  </ul>
+
+  <!-- Datos de retos y logros -->
+  <div class="estadisticas">
+    <h2>Estadísticas</h2>
+    <p><strong>Retos completados:</strong> 12</p>
+    <p><strong>Logros:</strong> 🔥 Racha de 7 días – 💡 Inspirador</p>
+  </div>
+
+  <!-- Menú de navegación -->
+  <footer class="footer-nav">
+    <a href="/principal"><i class="bi bi-house-door"></i></a>
+    <a href="/chat"><i class="bi bi-chat-dots"></i></a>
+    <a href="/calendario"><i class="bi bi-calendar-event"></i></a>
+    <a href="/perfil"><i class="bi bi-person active"></i></a>
+  </footer>
+
+  <script>
+    async function cargarPerfil() {
+      try {
+        const res = await fetch('/api/perfil');
+        if (!res.ok) throw new Error('No autorizado');
+        const data = await res.json();
+        
+        document.querySelector('.datos-usuario').innerHTML = `
+          <li><strong>Nombre:</strong> ${data.nombre_completo}</li>
+          <li><strong>Email:</strong> ${data.correo}</li>
+          <li><strong>Edad:</strong> - </li>
+          <li><strong>País:</strong> - </li>
+        `;
+      } catch (err) {
+        alert('Error al cargar perfil');
+        window.location.href = '/';
+      }
+    }
+
+    cargarPerfil();
+  </script>
+
+</body>
+</html>
