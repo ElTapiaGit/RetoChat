@@ -1,13 +1,13 @@
 const express = require('express');
-const path = require('path');
+//const path = require('path');
 const pool = require('../models/db');
 const router = express.Router();
-
 const bcrypt = require('bcrypt');
 
 // Rutas de páginas
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views', 'login.html'));
+    //res.sendFile(path.join(__dirname, '../views', 'login.html'));
+    res.render('login');
 });
 
 router.post('/login', async (req, res) => {
@@ -36,10 +36,11 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/registro', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views', 'registro.html'));
+    //res.sendFile(path.join(__dirname, '../views', 'registro.html'));
+    res.render('registro');
 });
 
-router.post('/registro', async (req, res) => {
+/*router.post('/registro', async (req, res) => {
     const { nombre_completo, correo, usuario, contrasena, confirmar_contrasena } = req.body;
     
     if (contrasena !== confirmar_contrasena) {
@@ -61,10 +62,14 @@ router.post('/registro', async (req, res) => {
         console.error('Error al registrar usuario:', error);
         res.status(500).send('<h3>Ocurrió un error al registrar el usuario.</h3>');
     }
-});
+});*/
 
 router.get('/principal', (req, res) => {
-    res.sendFile(path.join(__dirname, '../views', 'principal.html'));
+    // Asegúrate de que el usuario esté logueado antes de renderizar
+    if (!req.session.userId) {
+        return res.redirect('/');
+    }
+    res.render('principal', { currentPage: 'principal' });
 });
 router.get('/api/reto-diario', async (req, res) => {
     try {
@@ -79,6 +84,7 @@ router.get('/api/reto-diario', async (req, res) => {
         res.status(500).json({ error: 'Error al obtener el reto' });
     }
 });
+
 router.get('/api/usuario', async (req, res) => {
     if (!req.session.userId) return res.status(401).json({ error: 'No autorizado' });
 
@@ -109,14 +115,11 @@ router.get('/api/buscar-usuarios', async (req, res) => {
   }
 });
 
-
-
-
 router.get('/perfil', async (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/');
     }
-    res.sendFile(path.join(__dirname, '../views', 'perfil.html'));
+    res.render('perfil', { currentPage: 'perfil' });
 });
 router.get('/api/perfil', async (req, res) => {
     if (!req.session.userId) {
@@ -137,7 +140,10 @@ router.get('/api/perfil', async (req, res) => {
 });
 
 router.get('/chats', (req, res) => {
-  res.sendFile(path.join(__dirname, '../views', 'chats.html'));
+  if (!req.session.userId) {
+        return res.redirect('/');
+    }
+    res.render('chats', { currentPage: 'chats' });
 });
 router.get('/api/chats', async (req, res) => {
   if (!req.session.userId) return res.status(401).json([]);
@@ -176,8 +182,12 @@ router.get('/api/chats', async (req, res) => {
 });
 
 router.get('/chat', (req, res) => {
-    const usuarioDestino = req.query.usuario || 'Desconocido';
-    res.sendFile(path.join(__dirname, '../views', 'chat.html'));// Renderizará el HTML
+    //const usuarioDestino = req.query.usuario || 'Desconocido';
+    if (!req.session.userId) {
+        return res.redirect('/');
+    }
+    // 'chat.ejs' no usa el footer, así que no pasamos la variable
+    res.render('chat');
 });
 
 //API: Obtener historial de mensajes entre dos usuarios
@@ -208,6 +218,5 @@ router.get('/api/chat-historial', async (req, res) => {
         res.status(500).json({ error: 'Error interno' });
     }
 });
-
 
 module.exports = router;

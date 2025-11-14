@@ -8,7 +8,9 @@ const pool = require('./models/db'); // Ruta relativa a la bd a Postgresql
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);  // Socket.io
+const io = new Server(server); 
+
+app.set('view engine', 'ejs'); // Por defecto, EJS buscará los archivos en la carpeta /views
 
 const PORT = 3000;
 
@@ -69,11 +71,10 @@ io.on('connection', (socket) => {
 });
 
 // Rutas
-const pagesRoutes = require('./routes/pages.routes');
-app.use('/', pagesRoutes);
-
 const authRoutes = require('./routes/auth.routes');
 app.use('/', authRoutes);
+const pagesRoutes = require('./routes/pages.routes');
+app.use('/', pagesRoutes);
 
 // Iniciar el servidor
 server.listen(PORT, () => {

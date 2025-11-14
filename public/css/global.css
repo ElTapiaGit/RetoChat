@@ -1,0 +1,35 @@
+
+:root {
+    --azul-oscuro: #001B48;
+    --azul-intenso: #004481;
+    --azul-brillante: #018ABE;
+    --azul-claro: #97CADB;
+    --fondo-claro: #DEE8F1;
+    --texto-claro: #ffffff;
+    --texto-oscuro: #1a1a1a;
+}
+
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--azul-claro);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.footer-nav i {
+    font-size: 24px;
+    color: var(--azul-oscuro);
+}
+
+.footer-nav a {
+    color: #004481;
+    font-size: 22px;
+    text-decoration: none;
+}
+
+.footer-nav .active {
+    color: #018ABE;
+}

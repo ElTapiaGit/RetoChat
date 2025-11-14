@@ -1,10 +1,3 @@
-:root {
-    --fondo: #DEE8F1;
-    --texto: #001B48;
-    --azul-oscuro: #004481;
-    
-    --fondo-claro: #DEE8F1;
-}
 
 body {
     margin: 0;
@@ -59,23 +52,3 @@ body {
     color: var(--azul-oscuro);
 }
 
-.footer-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    border-top: 1px solid #97CADB;
-}
-
-.footer-nav a {
-    color: #004481;
-    font-size: 22px;
-    text-decoration: none;
-}
-
-.footer-nav .active {
-    color: #018ABE;
-}
