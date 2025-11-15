@@ -46,9 +46,9 @@ Sigue estos pasos para ejecutar el proyecto en tu máquina local.
 
 ### 2. Clonar el Repositorio
 
-```bash
-git clone [https://github.com/ElTapiaGit/RetoChat.git](https://github.com/ElTapiaGit/RetoChat.git)
-cd reto-web
+    ```bash
+    git clone [https://github.com/ElTapiaGit/RetoChat.git](https://github.com/ElTapiaGit/RetoChat.git)
+    cd reto-web
 
 ### 3. Crear `package.json`
 
