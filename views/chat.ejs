@@ -26,8 +26,8 @@
       <button type="submit" title="Enviar"><i class="bi bi-send-fill"></i></button>
     </form>
   </footer>
-
   <script>
+    // obtener datos de la URL y configurar el header
     const params = new URLSearchParams(window.location.search);
     const usuarioDestino = params.get('usuario') || 'Usuario';
     document.querySelector('.info-bar h1').textContent = `Chat con ${usuarioDestino}`;

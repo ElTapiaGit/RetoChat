@@ -32,6 +32,7 @@ app.use(session({
 // Servir archivos estáticos (como CSS) desde /public
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
 app.use('/imgs', express.static(path.join(__dirname, 'public/imgs'))); // si usas imágenes
+app.use('/js', express.static(path.join(__dirname, 'public/js')));
 
 // Socket.io: Chat en tiempo real
 io.on('connection', (socket) => {
