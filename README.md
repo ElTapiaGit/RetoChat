@@ -1,15 +1,15 @@
 
-# Reto-Web 🚀
+# Reto-Web 
 
 Proyecto Curios de un chat en tiempo real con retos y consignas para romper el hielo, diseñado para ayudar a personas introvertidas a conectar de forma divertida.
 
-## 🎯 Descripción
+##  Descripción
 
 `Reto-Web` no es solo un chat. Es una aplicación web diseñada para ayudar a personas introvertidas y curiosas a conectar de una manera divertida y estructurada.
 
 La aplicación empareja a usuarios y les propone "retos" o consignas (ej. "Hablar solo con emojis", "Contar una historia usando 'gato', 'pato' y 'lobo'") para guiar la conversación y hacerla más amena.
 
-## ✨ Características Principales
+## Características Principales
 
 * **Chat en Tiempo Real:** Comunicación instantánea usando WebSockets (Socket.io).
 * **Sistema de Retos:** Consignas diarias y temáticas para iniciar conversaciones.
@@ -35,7 +35,7 @@ La aplicación empareja a usuarios y les propone "retos" o consignas (ej. "Habla
 
 ---
 
-## 🚀 Puesta en Marcha Local
+##  Puesta en Marcha Local
 
 Sigue estos pasos para ejecutar el proyecto en tu máquina local.
 
@@ -54,15 +54,15 @@ cd reto-web
 
 Este proyecto asume que ya tienes un `package.json`. Si no lo tienes, créalo:
 
-```bash
-npm init -y
+    ```bash
+    npm init -y
 
 ### 4. Instalar Dependencias
 
 Instala todas las dependencias que el proyecto necesita.
 
-```bash
-npm install express socket.io pg express-session connect-pg-simple bcrypt dotenv ejs
+    ```bash
+    npm install express socket.io pg express-session connect-pg-simple bcrypt dotenv ejs
 
 
 
