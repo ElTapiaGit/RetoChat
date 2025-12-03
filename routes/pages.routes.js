@@ -203,7 +203,7 @@ router.get('/api/chat-historial', async (req, res) => {
 
     try {
         const result = await pool.query(`
-            SELECT mensaje, fecha_envio, usuario_id, destinatario_id
+            SELECT mensaje, fecha_envio, usuario_id, destinatario_id, tipo
             FROM mensajes_chat
             WHERE 
                 (usuario_id = $1 AND destinatario_id = (SELECT id FROM usuarios WHERE usuario = $2))

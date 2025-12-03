@@ -5,23 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chat del Reto</title>
   <link rel="stylesheet" href="/css/chat.css" />
+  <link rel="stylesheet" href="/css/stickers.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 <body>
-  <!-- Barra superior con información del reto -->
+  <!-- barra superior con informacion del reto -->
   <header class="info-bar">
     <h1>Reto del Día</h1>
-    <p>Comparte una historia que te haya inspirado esta semana</p>
+    <p>Chatear solo emojis o stickers 🤫🚫🔤</p>
   </header>
 
-  <!-- Contenedor del chat -->
+  <!-- contenedor del chat -->
   <main class="chat-container" id="chat">
-    <!-- Aquí aparecerán los mensajes -->
+    <!-- aqui apareceran los mensajes -->
   </main>
 
-  <!-- Caja de mensaje -->
+  <div id="sticker-panel"></div>
+
+  <!-- caja de mensaje -->
   <footer class="mensaje-footer">
-    <form id="form" style="display: flex; width: 100%; gap: 10px;">
+    <form id="form" style="display: flex; width: 100%; gap: 5px; align-items: center;">
+      <button type="button" id="toggle-stickers" class="btn-sticker" title="Stickers">
+        <i class="bi bi-emoji-smile"></i>
+      </button>
+
       <input type="text" placeholder="Escribe tu mensaje..." id="input" autocomplete="off" />
       <button type="submit" title="Enviar"><i class="bi bi-send-fill"></i></button>
     </form>
@@ -41,8 +48,30 @@
     const form = document.getElementById('form');
     const input = document.getElementById('input');
     const chatContainer = document.getElementById('chat');
+    const stickerPanel = document.getElementById('sticker-panel');
+    const btnStickers = document.getElementById('toggle-stickers');
 
-    // Guardamos tu propio ID de socket
+    // --- CONFIGURACION DEL RETO (Manual por ahora) ---
+    const RETO_ACTUAL = 'SOLO_EMOJIS'; 
+    // Cambiar placeholder para ayudar al usuario
+    if (RETO_ACTUAL === 'SOLO_EMOJIS') {
+        input.placeholder = "🤫 Solo emojis (ej: 👋😂❤️)...";
+    }
+    // --- LISTA DE STICKERS (Tus URLs) ---
+    const STICKERS_DISPONIBLES = [
+        "https://media.tenor.com/XNYXr6rL2o8AAAAM/duck.gif", 
+        "https://media.tenor.com/WlJsOVX2lysAAAAi/cat-tongue-cat.gif", 
+        "https://c.tenor.com/2ES7YijqoOwAAAAC/tenor.gif", 
+        "https://c.tenor.com/fZG8H-WGgn4AAAAC/tenor.gif", 
+        "https://c.tenor.com/hFvfHtYySfcAAAAC/tenor.gif", 
+        "https://c.tenor.com/K_BiOjF3FicAAAAd/tenor.gif", 
+        "https://c.tenor.com/VwNkC2ZJw5QAAAAd/tenor.gif", 
+        "https://media.tenor.com/HWS38y1vUhQAAAAj/squad-military.gif", 
+        "https://c.tenor.com/gAZOAL1Dh04AAAAd/tenor.gif", 
+        "https://media.tenor.com/6-XDvqplnaQAAAAj/squad-team.gif" 
+    ];
+
+    // guardamos tu propio ID de socket
     let myId = null;
 
     socket.on('connect', () => {
@@ -50,21 +79,35 @@
       console.log('Conectado al servidor con ID:', socket.id);
     });
 
-    // Cuando recibes un mensaje (msg y senderId)
-    socket.on('chat message', ({ msg, senderId }) => {
-      
-      const mensaje = document.createElement('div');
-      if (senderId === myId) {
-        mensaje.classList.add('mensaje-yo');
-      } else {
-        mensaje.classList.add('mensaje-otro');
-      }
-      mensaje.textContent = msg;
-      chatContainer.appendChild(mensaje);
-      // Siempre baja al último mensaje
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    });
+    //funcion para renderizar un mensaje (Texto o Sticker)
+    function renderizarMensaje(msg, senderId, tipo) {
+      const mensajeElem = document.createElement('div');
+      const esMio = (senderId === myId || senderId === 'yo');// 'yo' para renderizado local inmediato
 
+      mensajeElem.classList.add(esMio ? 'mensaje-yo' : 'mensaje-otro');
+      //logica de visualizacion
+      if (tipo === 'sticker') {
+        mensajeElem.classList.add('sticker-msg');// Clase especial para quitar fondo
+        const img = document.createElement('img');
+        img.src = msg;
+        img.alt = "Sticker";
+        img.onload = () => chatContainer.scrollTop = chatContainer.scrollHeight;
+        mensajeElem.appendChild(img);
+      } else {
+        // es texto normal
+        mensajeElem.textContent = msg;
+      }
+      chatContainer.appendChild(mensajeElem);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // cuando recibes un mensaje (msg y senderId)
+    socket.on('chat message', ({ msg, senderId, tipo }) => {
+      // si el tipo viene undefined (mesajes viejo), asumimos 'texto' 
+      const tipoMensaje = tipo || 'texto';
+      renderizarMensaje(msg, senderId, tipoMensaje);
+    });
+    // --- DATOS USUARIO ---
     let usuarioOrigen = '';
     let usuarioOrigenId = 0;
 
@@ -78,33 +121,151 @@
     }
     obtenerUsuarioActual();
 
-    // Al enviar mensaje
+    // -- INTERCEPTOR --
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const texto = input.value.trim();
-      if (texto !== '') {
-        // Envía al servidor
-        socket.emit('chat message', {
-          mensaje: texto,
-          usuarioOrigen, //aqui es el usuario logueado
-          usuarioDestino, //el destinatario ya lo tienes del query param
-        });
-        input.value = '';
+      if (texto === '') return; // no hacer nada si esta vacio
+      // vericar el reto
+      if (RETO_ACTUAL === 'SOLO_EMOJIS') {
+        // expreciones regular para no permiter letras sea mayuscula o miniscula incluso numeros
+        const contieneTextoProhibido = /[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ]/.test(texto);
+
+        if (contieneTextoProhibido) {
+          // si contine bloquemos el texto
+          alert('¡Ups! El reto es solo Emojis. No puedes usar letras ni numeros');
+          //feedback visual borde rojo en el input
+          input.style.border = '2px solid red';
+          setTimeout(() => {
+            input.style.border = 'none';
+          }, 2000);
+          return; // No envia el mensaje por incumplimiento
+        }
       }
+      // si cumple con el reto
+      // Envía al servidor
+      socket.emit('chat message', {
+        mensaje: texto,
+        usuarioOrigen, //aqui es el usuario logueado
+        usuarioDestino, //el destinatario ya lo tienes
+        tipo: 'texto' // Importante indicar el tipo
+      });
+      input.value = '';
     });
 
-    async function cargarHistorial() {
-      //const res = await fetch(`/api/chat-historial?usuarioDestino=${usuarioDestino}`);
-      const res = await fetch(`/api/chat-historial?usuario=${usuarioDestino}`);
+    // --- LOGICA DE STICKERS (LocalStorage + Panel) ---
 
+    // Mostrar/Ocultar toggle Panel
+    btnStickers.addEventListener('click', (e) => {
+      e.stopPropagation(); // Evita que se cierre inmediatamente por el listener del document
+      stickerPanel.classList.toggle('mostrar');
+      btnStickers.classList.toggle('active');
+      if (stickerPanel.classList.contains('mostrar')) {
+        cargarPanelStickers();
+      }
+    });
+    // Cerrar panel si click fuera
+    document.addEventListener('click', (e) => {
+      if (stickerPanel.classList.contains('mostrar') && !stickerPanel.contains(e.target)) {
+        stickerPanel.classList.remove('mostrar');
+        btnStickers.classList.remove('active');
+      }
+    });
+    // Enviar Sticker
+    function enviarSticker(url) {
+      // Guardar en Recientes (LRU)
+      guardarEnRecientes(url);
+
+      // Enviar al servidor
+      socket.emit('chat message', {
+        mensaje: url, // La URL es el mensaje
+        usuarioOrigen,
+        usuarioDestino,
+        tipo: 'sticker' // Tipo clave
+      });
+      // Cerrar panel tras enviar
+      stickerPanel.classList.remove('mostrar');
+      btnStickers.classList.remove('active');
+    }
+    // Guardar en LocalStorage (Algoritmo LRU)
+    function guardarEnRecientes(url) {
+      let recientes = JSON.parse(localStorage.getItem('stickers_recientes')) || [];
+      recientes = recientes.filter(s => s !== url); //evita duplicados
+      // Lo agregamos al principio
+      recientes.unshift(url);
+      // Limitamos a 8 recientes
+      if (recientes.length > 8) recientes.pop();
+      localStorage.setItem('stickers_recientes', JSON.stringify(recientes));
+    }
+    // Renderizar el Panel (HTML)
+    function cargarPanelStickers() {
+      stickerPanel.innerHTML = '';
+      const recientes = JSON.parse(localStorage.getItem('stickers_recientes')) || [];
+
+      // Seccion Recientes
+      if (recientes.length > 0) {
+        const tituloRecientes = document.createElement('div');
+        tituloRecientes.className = 'sticker-category';
+        tituloRecientes.textContent = '🕒 Recientes';
+        stickerPanel.appendChild(tituloRecientes);
+
+        const gridRecientes = document.createElement('div');
+        gridRecientes.className = 'sticker-grid';
+            
+        recientes.forEach(url => {
+          const img = document.createElement('img');
+          img.src = url;
+          img.className = 'sticker-option';
+          img.onclick = () => enviarSticker(url);
+          gridRecientes.appendChild(img);
+        });
+        stickerPanel.appendChild(gridRecientes);
+      }
+
+      // Seccion Todos
+      const tituloTodos = document.createElement('div');
+      tituloTodos.className = 'sticker-category';
+      tituloTodos.textContent = '🔥 Populares';
+      stickerPanel.appendChild(tituloTodos);
+
+      const gridTodos = document.createElement('div');
+      gridTodos.className = 'sticker-grid';
+
+      STICKERS_DISPONIBLES.forEach(url => {
+        const img = document.createElement('img');
+        img.src = url;
+        img.className = 'sticker-option';
+        img.onclick = () => enviarSticker(url);
+        gridTodos.appendChild(img);
+      });
+      stickerPanel.appendChild(gridTodos);
+    }
+
+    // --- CARGAR HISTORIAL ---
+    async function cargarHistorial() {
+      const res = await fetch(`/api/chat-historial?usuario=${usuarioDestino}`);
       const mensajes = await res.json();
 
-      mensajes.forEach(({ mensaje, usuario_id }) => {
+      mensajes.forEach(({ mensaje, usuario_id, tipo }) => {
+        // Mapear ID de BD a 'yo'/'otro' para la función renderizar
+        const esMio = (usuario_id === usuarioOrigenId);
+        // Si la columna tipo viene null (datos viejos), usar 'texto'
+        const tipoFinal = tipo || 'texto';
         const mensajeElem = document.createElement('div');
-        mensajeElem.classList.add(usuario_id === usuarioOrigenId ? 'mensaje-yo' : 'mensaje-otro');
-        mensajeElem.textContent = mensaje;
+        mensajeElem.classList.add(esMio ? 'mensaje-yo' : 'mensaje-otro');
+        if (tipoFinal === 'sticker') {
+          mensajeElem.classList.add('sticker-msg');
+          const img = document.createElement('img');
+          img.src = mensaje;
+          mensajeElem.appendChild(img);
+        } else {
+          mensajeElem.textContent = mensaje;
+        }
+        
         chatContainer.appendChild(mensajeElem);
       });
+      // asegura el scroll al final al cargar historial
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
     cargarHistorial();

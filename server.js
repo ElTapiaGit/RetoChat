@@ -39,21 +39,24 @@ io.on('connection', (socket) => {
     console.log('Usuario conectado:', socket.id);
 
     socket.on('chat message', async (data) => {
-        const { mensaje, usuarioOrigen, usuarioDestino } = data;
+        // resivimos tipo, sino viene asumimos undefined
+        const { mensaje, usuarioOrigen, usuarioDestino, tipo } = data;
 
         try{
             //guarda el mensaje en la bd
             await pool.query(`
-                INSERT INTO mensajes_chat (usuario_id, destinatario_id, mensaje)
+                INSERT INTO mensajes_chat (usuario_id, destinatario_id, mensaje, tipo)
                 VALUES (
                     (SELECT id FROM usuarios WHERE usuario = $1),
                     (SELECT id FROM usuarios WHERE usuario = $2),
-                    $3
+                    $3,
+                    $4
                 )`,
-                [usuarioOrigen, usuarioDestino, mensaje]
+                // Pasamos el valor. Si 'tipo' es null/undefined, guardamos 'texto'
+                [usuarioOrigen, usuarioDestino, mensaje, tipo || 'texto']
             );
 
-            console.log(`Mensaje guardado de ${usuarioOrigen}: ${mensaje}`);
+            console.log(`Mensaje guardado de ${usuarioOrigen} (${tipo || 'texto'}): ${mensaje}`);
         } catch (err) {
             console.error(`Error al guardar mensaje:`, err);
         }
@@ -63,6 +66,7 @@ io.on('connection', (socket) => {
             senderId: socket.id,
             usuarioOrigen,
             usuarioDestino, 
+            tipo: tipo || 'texto',
         });
     });
 

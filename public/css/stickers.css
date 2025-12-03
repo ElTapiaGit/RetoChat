@@ -1,0 +1,104 @@
+/* Botón de stickers */
+.btn-sticker {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #555;
+    padding: 0 10px;
+}
+.btn-sticker:hover { color: #007bff; }
+
+/* Panel de Stickers */
+#sticker-panel {
+    position: fixed;/*flota sobre todo*/
+    bottom: 70px; /* Justo encima del input */
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+    padding: 15px;
+    z-index: 1000;
+    /* Control de altura para mostrar aprox 2 filas */
+    max-height: 220px; 
+    overflow-y: auto; /* Scroll si hay muchos */
+    /* Animación de entrada */
+    transform: translateY(100%); /* Empieza escondido abajo */
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+    pointer-events: none; /* Para no bloquear clicks cuando está invisible */
+}
+
+#sticker-panel.mostrar { 
+    transform: translateY(0); /* Sube a su sitio */
+    opacity: 1;
+    pointer-events: all;    
+}
+/* Títulos de secciones */
+.sticker-category {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #888;
+    margin: 10px 0 5px 0;
+    font-weight: bold;
+}
+/* La cuadrícula de stickers */
+.sticker-grid {
+    display: grid;
+    /* Mínimo 80px por sticker, llena el espacio disponible */
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+    gap: 10px;
+    justify-items: center;
+}
+/* Cada imagen de sticker en el panel */
+.sticker-option {
+    width: 80px;
+    height: 80px;
+    object-fit: contain; /* Mantiene la proporción sin recortar */
+    cursor: pointer;
+    transition: transform 0.1s;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 5px;
+}
+.sticker-option:active {
+    transform: scale(0.9); /* Efecto de click */
+}
+/* Scrollbar bonito para el panel */
+#sticker-panel::-webkit-scrollbar {
+    width: 6px;
+}
+#sticker-panel::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+/* --- ESTILOS DE LOS MENSAJES --- */
+/* Sticker dentro del chat */
+.sticker-msg {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-bottom: 5px;
+}
+.sticker-msg img {
+    max-width: 160px; /* Tamaño máximo en el chat */
+    border-radius: 12px;
+    display: block;
+}
+/* Botón del footer activo */
+.btn-sticker {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.3s;
+    padding: 0 10px;
+}
+.btn-sticker.active {
+    color: #007bff; /* Azul cuando está abierto */
+}

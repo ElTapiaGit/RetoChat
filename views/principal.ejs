@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 </head>
 <body>
-  <!-- Encabezado -->
+  <!-- encabezado -->
   <header class="encabezado">
     <img src="/imgs/user.png" alt="Perfil" class="perfil-img" />
     <!--agregar aqui el nombre del usuario-->
@@ -19,53 +19,53 @@
   <!-- Contenedor del reto -->
   <div class="reto-container">
     <h1>TÍTULO DEL RETO DIARIO</h1>
-    <!--Aquí van las instrucciones del reto-->
+    <!--aqui van las instrucciones del reto-->
     <p>no hay intruccion optenidas de la BD</p>
     <p><strong>Tiempo límite:</strong> 10 minutos</p>
     <a href="/chat" class="btn-comenzar">Comenzar Reto</a>
   </div>
 
-  <!-- Botones para interacción -->
+  <!-- botones para interaccion -->
   <div class="acciones">
     <button> Buscar usuario <i class="bi bi-search"></i></button>
     <button> Emparejar aleatorio <i class="bi bi-shuffle"></i></button>
     <button> Invitar amigo <i class="bi bi-person-plus"></i></button>
   </div>
 
-  <!-- Footer o menú de navegación -->
+  <!-- footer o menu de navegacion -->
   <%- include('partials/footer'); %>
 
-  <!-- Modal para invitar amigo -->
+  <!-- modal para invitar amigo -->
   <div id="modal-invitar" class="modal">
-      <div class="modal-content">
+    <div class="modal-content">
       <span class="cerrar">&times;</span>
       <h2>¡Invita a un amigo a un reto!</h2>
       <p>Comparte esta experiencia y reta a alguien especial 🧠💪</p>
       <div class="redes-sociales">
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://tu-sitio.com&quote=¡Se te invita a un reto divertido para mejorar tu día! 💫" target="_blank">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://tu-sitio.com&quote=¡Se te invita a un reto divertido para mejorar tu día! 💫" target="_blank">
           <i class="bi bi-facebook"></i> Facebook
-          </a>
-          <a href="https://twitter.com/intent/tweet?url=https://tu-sitio.com&text=¡Se te invita a un reto para mejorar tu autoestima y creatividad!" target="_blank">
+        </a>
+        <a href="https://twitter.com/intent/tweet?url=https://tu-sitio.com&text=¡Se te invita a un reto para mejorar tu autoestima y creatividad!" target="_blank">
           <i class="bi bi-twitter-x"></i> Twitter
-          </a>
-          <a href="https://wa.me/?text=¡Se te invita a un reto para inspirarte hoy! Entra aquí: https://tu-sitio.com" target="_blank">
+        </a>
+        <a href="https://wa.me/?text=¡Se te invita a un reto para inspirarte hoy! Entra aquí: https://tu-sitio.com" target="_blank">
           <i class="bi bi-whatsapp"></i> WhatsApp
-          </a>
+        </a>
       </div>
-      </div>
+    </div>
   </div>
 
-  <!-- Modal para buscar usuario -->
+  <!-- modal para buscar usuario -->
   <div id="modal-buscar" class="modal">
     <div class="modal-content">
       <span class="cerrar-buscar">&times;</span>
       <h2>Buscar usuario para chatear</h2>
       <input type="text" id="input-busqueda" placeholder="Ingresa el usuario..." />
       <div id="resultados-busqueda" class="resultados">
-        <!-- Aquí van los resultados -->
+        <!-- aqui van los resultados -->
       </div>
     </div>
   </div>
-  <script src="../public/js/principal.js"></script>
+  <script src="/js/principal.js"></script>
 </body>
 </html>

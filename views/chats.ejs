@@ -14,10 +14,10 @@
   </header>
 
   <main class="chat-list" id="chat-list">
-    <!-- Aquí se cargan los chats -->
+    <!-- aqui se cargan los chats -->
   </main>
 
-  <!-- Footer o menú de navegación -->
+  <!-- footer o menu de navegacion -->
   <%- include('partials/footer'); %>
 
   <script>
@@ -28,7 +28,7 @@
         const chatList = document.getElementById('chat-list');
 
         if (chats.length === 0) {
-          chatList.innerHTML = '<p class="empty">Aún no realizaste ningún chat.</p>';
+          chatList.innerHTML = '<p class="empty">Aún no realizaste ningun chat.</p>';
           return;
         }
 
@@ -44,17 +44,16 @@
               <p class="preview">${chat.ultimo_mensaje || 'Sin mensajes aún'}</p>
             </div>
           `;
-          // 👉 Agrega evento para redirigir al chat
-  chatItem.addEventListener('click', () => {
-    window.location.href = `/chat?usuario=${encodeURIComponent(chat.usuario)}`;
-  })
+          // evento para redirigir al chat
+          chatItem.addEventListener('click', () => {
+            window.location.href = `/chat?usuario=${encodeURIComponent(chat.usuario)}`;
+          })
           chatList.appendChild(chatItem);
         });
       } catch (error) {
         console.error('Error al cargar chats:', error);
       }
     }
-
     cargarChats();
   </script>
 </body>
