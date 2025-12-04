@@ -1,7 +1,7 @@
 
 body {
     margin: 0;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: var(--fondo);
 }
 
@@ -11,8 +11,15 @@ body {
 
 .volver a {
     color: var(--azul-oscuro);
-    font-size: 24px;
+    font-size: 1.5rem;
     text-decoration: none;
+}
+/* Contenedor principal para centrar en tablets/pc */
+.perfil-contenedor {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
 }
 
 .perfil-section {
@@ -30,9 +37,13 @@ body {
 
 .datos-usuario {
     list-style: none;
-    padding: 20px;
-    margin: 0;
-    font-size: 16px;
+    padding: 0;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .datos-usuario li {
@@ -52,3 +63,56 @@ body {
     color: var(--azul-oscuro);
 }
 
+.stats-grid {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+}
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+.stat-item .numero {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--azul-principal);
+}
+.stat-item .label {
+    font-size: 0.8rem;
+    color: #888;
+}
+.logro-destacado {
+    background-color: #fff8e1; /* Amarillo muy suave */
+    color: #f57f17;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Botón Cerrar Sesión */
+.acciones-perfil {
+    margin-top: 20px;
+}
+
+.btn-logout {
+    background-color: #ff5252; /* Rojo suave */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px rgba(255, 82, 82, 0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-logout:hover {
+    background-color: #ff1744;
+    transform: translateY(-2px);
+}

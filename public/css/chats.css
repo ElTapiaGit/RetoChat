@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
     background-color: #f0f2f5;
     margin: 0;
 }
@@ -7,34 +7,46 @@ body {
 .header {
     background-color: #0084ff;
     color: white;
-    padding: 1rem;
+    padding: 0.2rem;
     text-align: center;
+    border-bottom: 2px solid #018ABE;
 }
 
 .chat-list {
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .chat-item {
     display: flex;
     align-items: center;
     padding: 0.75rem;
-    background-color: white;
+    background-color: rgb(230, 230, 230);
     margin-bottom: 1rem;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, background 0.2s;
 }
 
 .chat-item:hover {
     background-color: #e6f0ff;
+    transform: translateY(-2px);
 }
 
 .icono-usuario {
     font-size: 2rem;
     margin-right: 1rem;
+    color: #004481;
+    flex-shrink: 0;
 }
 
+.info-usuario {
+    flex: 1; 
+    min-width: 0; 
+    display: flex;
+    flex-direction: column; /* Pone el nombre arriba y mensaje abajo */
+    justify-content: center;
+}
 .info-usuario p {
     margin: 0;
 }
@@ -42,6 +54,10 @@ body {
 .preview {
     color: gray;
     font-size: 0.9rem;
+    margin: 5px 0 0;
+    white-space: nowrap;      /* Todo en una linea */
+    overflow: hidden;         
+    text-overflow: ellipsis;  /* Pone '...' al final */
 }
 
 .empty {

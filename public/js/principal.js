@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // script para cargar reto diario
+    /*/ script para cargar reto diario
     async function cargarRetoDiario() {
       try {
         const res = await fetch('/api/reto-diario');
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error al cargar el reto diario.');
       }
     }
-    cargarRetoDiario();
+    cargarRetoDiario();*/
 
     //script para el modal de buscar usuario
     const btnBuscar = document.querySelector('.acciones button:nth-child(1)');

@@ -5,42 +5,116 @@
     --azul-acento-hover: #97CADB;
     --fondo-claro: #DEE8F1;
     --texto-blanco: #FFFFFF;
+    --color-timer: #FFD700; /* para el reloj */
+    --bg-timer: rgba(0, 0, 0, 0.25); 
 }
-  
+* {
+    box-sizing: border-box; /* Esto evita que el padding deforme el ancho */
+}
+
 body {
     background-color: var(--fondo-claro);
     margin: 0;
     font-family: 'Segoe UI', sans-serif;
     color: var(--azul-marino);
+    height: 100vh; /* Aseguramos altura total */
+    width: 100vw;  /* Aseguramos ancho total */
+    overflow: hidden; /* Evita cualquier scroll en el body */
 }
-  
+/* --- BARRA SUPERIOR --- */
 .info-bar {
     background-color: var(--azul-principal);
-    padding: 20px;
+    height: 60px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; 
     text-align: center;
     border-bottom: 2px solid var(--azul-acento);
     color: var(--texto-blanco);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative; /* Clave para los elementos absolutos */
 }
-  
-.info-bar h1 {
-    margin: 0;
-    font-size: 22px;
+.info-bar-content {
+    width: 100%;
+    height: 100%;
 }
-  
-.info-bar p {
-    margin: 5px 0 0;
-    font-size: 16px;
-}
-  
-.chat-container {
-    padding: 20px;
+/* Texto Central (Título + Reto) */
+.info-text {
+    margin: 0 50px; 
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 70px; /* Espacio para el footer fijo */
-    height: 70vh; /* Altura fija del contenedor de chat */
-    /*max-height: calc(100vh - 120px); /* ajusta esto */
-    overflow-y: auto; /* Habilitar scroll vertical */
+    justify-content: center;
+    align-items: center;
+}
+.info-bar h1 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+}
+/* Contenedor del nombre del reto y el reloj */
+.reto-metadata {
+    display: block; 
+    margin-top: 4px;
+    width: 100%; /* Para que el text-overflow funcione */
+    text-align: center;
+}
+.reto-nombre {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.9;
+    color: #e0e0e0;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; 
+}
+/* Estilo tipo "Display Digital" para el reloj */
+.reto-timer {
+    position: absolute;
+    top: 25%;
+    left: 15px;
+    transform: translateY(-50%); /* Centrado vertical exacto */
+    background-color: var(--bg-timer);
+    color: var(--color-timer);
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+/* Botón X para cerrar */
+.btn-cerrar-chat {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%); 
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1.3rem;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, color 0.2s;
+}
+.btn-cerrar-chat:hover {
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+}
+/* --- CONTENEDOR DEL CHAT */
+.chat-container {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    height: calc(100vh - 150px);
+    overflow-y: auto;
+    overflow-x: hidden; /* Previene scroll horizontal accidental */
 }
   
 .mensaje-yo {

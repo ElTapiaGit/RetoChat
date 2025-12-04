@@ -14,29 +14,42 @@
     <a href="/principal"><i class="bi bi-arrow-left"></i></a>
   </div>
 
-  <!-- imagen de perfil -->
-  <div class="perfil-section">
-    <img src="/imgs/user.png" alt="Usuario" class="foto-perfil" />
-  </div>
+  <div class="perfil-contenedor">
+      <div class="perfil-section">
+        <img src="/imgs/user.png" alt="Usuario" class="foto-perfil" />
+      </div>
 
-  <!-- datos del usuario -->
-  <ul class="datos-usuario">
-    <li><strong>Nombre:</strong> Null</li>
-    <li><strong>Email:</strong> Null</li>
-    <li><strong>Edad:</strong> Null</li>
-    <li><strong>País:</strong> Null</li>
-  </ul>
+      <ul class="datos-usuario">
+        <li><strong>Nombre:</strong> Cargando...</li>
+        <li><strong>Email:</strong> Cargando...</li>
+        <li><strong>Edad:</strong> - </li>
+        <li><strong>País:</strong> - </li>
+      </ul>
 
-  <!-- datos de retos y logros -->
-  <div class="estadisticas">
-    <h2>Estadísticas</h2>
-    <p><strong>Retos completados:</strong> 12</p>
-    <p><strong>Logros:</strong> 🔥 Racha de 7 días – 💡 Inspirador</p>
+      <div class="estadisticas">
+        <h2>Estadísticas</h2>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="numero">12</span>
+            <span class="label">Retos</span>
+          </div>
+          <div class="stat-item">
+            <span class="numero">7</span>
+            <span class="label">Racha Días</span>
+          </div>
+        </div>
+        <p class="logro-destacado">💡 Logro: Inspirador</p>
+      </div>
+
+      <div class="acciones-perfil">
+        <button id="btn-logout" class="btn-logout">
+          <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+        </button>
+      </div>
   </div>
 
   <!-- Menu de navegacion -->
   <%- include('partials/footer'); %>
-
 
   <script>
     async function cargarPerfil() {
@@ -45,17 +58,28 @@
         if (!res.ok) throw new Error('No autorizado');
         const data = await res.json();
         
-        document.querySelector('.datos-usuario').innerHTML = `
+        const lista = document.querySelector('.datos-usuario');
+        // Reemplazamos el HTML interno manteniendo la estructura
+        lista.innerHTML = `
           <li><strong>Nombre:</strong> ${data.nombre_completo}</li>
           <li><strong>Email:</strong> ${data.correo}</li>
           <li><strong>Edad:</strong> - </li>
-          <li><strong>País:</strong> - </li>
+          <li><strong>País:</strong> Bolivia </li>
         `;
       } catch (err) {
+        console.error(err);
         alert('Error al cargar perfil');
         window.location.href = '/';
       }
     }
+
+    // cerrar sesion
+    document.getElementById('btn-logout').addEventListener('click', () => {
+      // confirmacion opcional 
+      if(confirm('¿Seguro que quieres salir?')) {
+        window.location.href = '/logout';
+      }
+    });
 
     cargarPerfil();
   </script>
